@@ -1,0 +1,53 @@
+// Reconstructed Sass version of the visible source approach.
+// The browser-ready implementation is in style.css + script.js.
+
+@import "compass";
+
+@function make($multiplier) {
+  $val: 0px 0px;
+  @for $i from 1 through 250 {
+    $val: #{$val}, #{$i * sin($i * $multiplier)}px
+      #{$i * cos($i * $multiplier)}px;
+  }
+  @return $val;
+}
+
+@mixin pattern($multiplier) {
+  box-shadow: make($multiplier);
+}
+
+body {
+  background-color: hsl(0, 80%, 80%);
+  animation: colorama 20s linear infinite;
+}
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1em;
+  height: 1em;
+  transform: translate(-50%, -50%) rotate(0);
+  color: rgba(255, 255, 255, .5);
+  background-color: currentColor;
+  border-radius: 50%;
+  animation: rotate 5s linear infinite,
+             morph 2.5s linear alternate infinite;
+  @include pattern(-1);
+}
+
+@keyframes rotate {
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes morph {
+  100% { border-radius: 0; }
+}
+
+@keyframes colorama {
+  0% { background-color: hsl(0, 80%, 80%); }
+  25% { background-color: hsl(45, 80%, 80%); }
+  50% { background-color: hsl(180, 80%, 80%); }
+  75% { background-color: hsl(225, 80%, 80%); }
+  100% { background-color: hsl(360, 80%, 80%); }
+}
